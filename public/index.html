@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NEXUS ARCADE — 2-Player IP 3D Multiplayer</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/vendor/three.module.min.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Top Utility Bar -->
+  <header id="top-bar" class="glass">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span>NEXUS ARCADE</span>
+      <span class="badge" id="room-badge">ROOM: ARENA</span>
+    </div>
+    <div class="top-actions">
+      <span class="pill" id="role-pill">Connecting...</span>
+      <span class="pill" id="ping-pill">-- ms</span>
+      <button class="btn-icon" id="mute-btn" title="Toggle Sound">SFX ON</button>
+      <button class="btn-ghost hidden" id="lobby-btn">Lobby</button>
+    </div>
+  </header>
+
+  <!-- Lobby Overlay -->
+  <main id="lobby-overlay">
+    <section class="lobby-shell glass">
+      <div class="lobby-header">
+        <div>
+          <h1>2-PLAYER IP MULTIPLAYER HUB</h1>
+          <p class="muted">Share your LAN IP link below so Player 2 can join instantly in any browser.</p>
+        </div>
+        <div class="ip-box">
+          <div class="ip-label">SHARE LINK (LAN / IP)</div>
+          <div class="ip-row">
+            <code id="share-url">http://localhost:3000</code>
+            <button class="btn-small" id="copy-ip-btn">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lobby-players">
+        <div class="player-card p1" id="p1-card">
+          <div class="player-tag">PLAYER 1 // CYAN</div>
+          <div class="player-name" id="p1-name">Waiting...</div>
+          <div class="player-status" id="p1-status">Not Connected</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="player-card p2" id="p2-card">
+          <div class="player-tag">PLAYER 2 // CORAL</div>
+          <div class="player-name" id="p2-name">Waiting...</div>
+          <div class="player-status" id="p2-status">Open Slot</div>
+        </div>
+      </div>
+
+      <div class="lobby-controls-row">
+        <div class="input-group">
+          <label for="name-input">Your Callsign</label>
+          <input id="name-input" type="text" maxlength="16" placeholder="Commander" />
+        </div>
+        <div class="input-group">
+          <label for="room-input">Room Code</label>
+          <div class="inline-row">
+            <input id="room-input" type="text" maxlength="12" value="ARENA" />
+            <button class="btn-small" id="switch-room-btn">Join</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Practice Mode</label>
+          <button class="btn-toggle" id="bot-toggle-btn">vs AI Bot: OFF</button>
+        </div>
+      </div>
+
+      <div class="section-label">SELECT GAME MODE</div>
+      <div class="game-grid" id="game-grid"></div>
+
+      <div class="lobby-footer">
+        <div class="selected-controls" id="selected-controls"></div>
+        <div class="footer-btns">
+          <button class="btn-primary" id="ready-btn">READY UP</button>
+          <button class="btn-accent" id="start-now-btn">LAUNCH MATCH</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- In-Game HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-top">
+      <div class="scoreboard glass">
+        <div class="score-side p1">
+          <span class="score-name" id="hud-p1-name">Player 1</span>
+          <span class="score-val" id="hud-p1-score">0</span>
+        </div>
+        <div class="score-center">
+          <div class="hud-game-title" id="hud-game-title">GAME</div>
+          <div class="hud-sub" id="hud-sub">ROUND 1</div>
+        </div>
+        <div class="score-side p2">
+          <span class="score-val" id="hud-p2-score">0</span>
+          <span class="score-name" id="hud-p2-name">Player 2</span>
+        </div>
+      </div>
+
+      <div class="hud-bars" id="hud-bars"></div>
+    </div>
+
+    <div class="hud-bottom">
+      <!-- Battleship Tactical Dock -->
+      <div id="battleship-dock" class="glass hidden"></div>
+
+      <div class="hud-controls-hint glass" id="hud-hint"></div>
+    </div>
+  </div>
+
+  <!-- Countdown / Round Banner -->
+  <div id="center-banner" class="hidden">
+    <div class="banner-card glass">
+      <div class="banner-title" id="banner-title">3</div>
+      <div class="banner-sub" id="banner-sub">GET READY</div>
+    </div>
+  </div>
+
+  <!-- Match Over Modal -->
+  <div id="match-over" class="hidden">
+    <div class="modal-card glass">
+      <div class="modal-kicker">MATCH COMPLETE</div>
+      <h2 id="winner-heading">PLAYER 1 WINS!</h2>
+      <p id="winner-reason" class="muted"></p>
+      <div class="modal-actions">
+        <button class="btn-primary" id="rematch-btn">PLAY AGAIN</button>
+        <button class="btn-ghost" id="choose-other-btn">SWITCH GAME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notice -->
+  <div id="toast" class="hidden"></div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
